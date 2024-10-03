@@ -1,0 +1,20 @@
+{
+    "name": "shark-node",
+    "version": "1.0.0",
+    "description": "nodejs image demo",
+    "author": "Sammy the Shark <sammy@example.com>",
+    "license": "MIT",
+    "main": "app.js",
+    "scripts": {
+        "build": "npm install"
+    },
+    "keywords": [
+        "nodejs",
+        "bootstrap",
+        "express"
+    ],
+    "dependencies": {
+        "dd-trace": "^5.18.0",
+        "express": "^4.16.4"
+    }
+}

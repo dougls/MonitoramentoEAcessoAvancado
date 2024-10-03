@@ -1,0 +1,21 @@
+{
+    "name": "shark-node-logs",
+    "version": "1.0.0",
+    "description": "nodejs image demo",
+    "author": "Sammy the Shark <sammy@example.com>",
+    "license": "MIT",
+    "main": "app.js",
+    "scripts": {
+        "build": "npm install"
+    },
+    "keywords": [
+        "nodejs",
+        "bootstrap",
+        "express"
+    ],
+    "dependencies": {
+        "express": "^4.16.4",
+        "newrelic": "latest",
+        "winston": "^3.13.1"
+    }
+}

@@ -1,0 +1,19 @@
+# Stage 1
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /app
+
+# ARG TESTE-ARG
+
+# ENV TESTE=$TESTE-ARG
+COPY . .
+
+RUN dotnet publish -c Release -o build
+
+# Stage 2
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app/fiap
+
+COPY --from=build /app/build .
+
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "MinimalApi.dll"]

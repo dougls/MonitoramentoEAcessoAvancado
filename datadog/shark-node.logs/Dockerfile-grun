@@ -1,0 +1,36 @@
+FROM node:18-slim
+
+# RUN mkdir -p /home/node/app/node_modules 
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+RUN apt-get update && \
+    apt-get install -y ca-certificates
+
+COPY --from=datadog/serverless-init:1 /datadog-init /app/datadog-init
+COPY --from=datadog/dd-lib-js-init /operator-build/node_modules /dd_tracer/node/
+
+ENV DD_API_KEY="add-api-key-here"
+ENV DD_APP_KEY="add-app-key-here"
+ENV DD_AGENT_MAJOR_VERSION=7
+ENV DD_SITE="us5.datadoghq.com"
+ENV DD_SERVICE=shark-node-logs-serverless
+ENV DD_ENV=production
+ENV DD_VERSION=1
+ENV DD_HOSTNAME=shark-node-logs-serverless
+ENV DD_LOGS_INJECTION=true
+ENV DD_LOGS_ENABLED=true
+ENV DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+ENV DD_CONTAINER_EXCLUDE="name:datadog-agent"
+
+COPY . .
+
+EXPOSE 3002
+
+#ENTRYPOINT ["./datadog-init"]
+
+CMD ["/app/datadog-init", "node", "app.js"]

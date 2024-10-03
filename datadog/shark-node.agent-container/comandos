@@ -1,0 +1,23 @@
+# Datadog agent sidecar
+docker run -d --name datadog-agent \
+    --network bridge \
+    --cgroupns host \
+    --pid host \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -v /proc/:/host/proc/:ro \
+    -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro \
+    -v /var/run/datadog/:/var/run/datadog/ \
+    -e DD_API_KEY=add-license-key-here \
+    -e DD_APM_ENABLED=true \
+    -e DD_SITE=us5.datadoghq.com \
+    -e DD_APM_NON_LOCAL_TRAFFIC=true \
+    -e DD_APM_RECEIVER_SOCKET=/var/run/datadog/apm.socket \
+    gcr.io/datadoghq/agent:latest
+
+# Routes request scripts
+for i in {1..100000};
+do
+    curl -s -k 'GET' -H 'header info' -b 'ff' 'http://localhost:8080/sharks/1';
+    curl -s -k 'GET' -H 'header info' -b 'ff' 'http://localhost:8080/sharks';
+    curl -s -k 'GET' -H 'header info' -b 'ff' 'http://localhost:8080/';
+done
